@@ -50,12 +50,14 @@
       background-color: rgba(0, 0, 0, 0.8);
       align-items: center;
       justify-content: center;
-      flex-direction: column;
     }
     .lightbox .lightbox-content {
+      position: relative; /* Position relative for absolute children */
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-height: 90%; /* Limit the height of lightbox content */
+      overflow: hidden; /* Prevent overflow of content */
     }
     .lightbox img {
       max-width: 90%;
@@ -66,7 +68,8 @@
       margin-bottom: 20px; /* Space between image and buttons */
     }
     .zoom-controls {
-      margin-top: 10px; /* Reduced margin for better spacing */
+      position: absolute; /* Absolute positioning */
+      bottom: 10px; /* Distance from the bottom */
       display: flex;
       gap: 10px;
     }
