@@ -57,31 +57,30 @@
       align-items: center;
       max-height: 90%; /* Limit the height of lightbox content */
       overflow: hidden; /* Prevent overflow of content */
+      position: relative; /* For lens positioning */
     }
     .lightbox img {
       max-width: 90%;
       max-height: 80%; /* Allow more space for buttons */
       border-radius: 8px;
       box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.5);
-      transform-origin: center center;
-      margin-bottom: 0; /* No margin below image */
     }
-    .zoom-controls {
-      margin-top: 10px; /* Space above buttons */
-      display: flex;
-      gap: 10px;
+    
+    /* Lens styles */
+    .lens {
+      position: absolute;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      cursor: none; /* Hide pointer cursor */
+      display: none; /* Hidden by default */
+      width: 150px; /* Width of the lens */
+      height: 150px; /* Height of the lens */
+      overflow: hidden; /* Ensure image does not overflow */
     }
-    .zoom-controls button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-    }
-    .zoom-controls button:hover {
-      background-color: #555;
+    .lens img {
+      position: absolute;
+      width: 300px; /* Width of the image inside the lens */
+      height: auto; /* Maintain aspect ratio */
     }
   </style>
 </head>
@@ -109,52 +108,60 @@
 
   <!-- Lightbox Container -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <div class="lightbox-content">
-      <img id="lightbox-img" src="" alt="Zoomed Image" style="transform: scale(1);">
-      <div class="zoom-controls">
-        <button onclick="zoomIn(event)">Zoom In</button>
-        <button onclick="zoomOut(event)">Zoom Out</button>
-        <button onclick="resetZoom(event)">Reset</button>
+    <div class="lightbox-content" onmousemove="moveLens(event)" onmouseleave="hideLens()">
+      <img id="lightbox-img" src="" alt="Zoomed Image">
+      <div class="lens" id="lens">
+        <img id="lens-image" src="" alt="Lens Image">
       </div>
     </div>
   </div>
 
   <script>
-    let zoomLevel = 1;
-
     function openLightbox(src) {
       document.getElementById("lightbox-img").src = src;
+      document.getElementById("lens-image").src = src; // Set lens image source
       document.getElementById("lightbox").style.display = "flex";
-      zoomLevel = 1; // Reset zoom level when opening a new image
-      updateZoom();
+      showLens(); // Show the lens when opening the lightbox
     }
 
     function closeLightbox() {
       document.getElementById("lightbox").style.display = "none";
+      hideLens(); // Hide the lens when closing the lightbox
     }
 
-    function zoomIn(event) {
-      event.stopPropagation(); // Prevent lightbox close on button click
-      zoomLevel += 0.2;
-      updateZoom();
+    function moveLens(e) {
+      const lens = document.getElementById("lens");
+      const img = document.getElementById("lightbox-img");
+      const { left, top, width, height } = img.getBoundingClientRect();
+      
+      // Calculate lens position
+      let x = e.clientX - left - lens.offsetWidth / 2;
+      let y = e.clientY - top - lens.offsetHeight / 2;
+
+      // Ensure lens stays within the image boundaries
+      if (x > width - lens.offsetWidth) x = width - lens.offsetWidth;
+      if (x < 0) x = 0;
+      if (y > height - lens.offsetHeight) y = height - lens.offsetHeight;
+      if (y < 0) y = 0;
+
+      lens.style.left = x + "px";
+      lens.style.top = y + "px";
+      lens.style.display = "block"; // Show the lens
+
+      // Set the lens image position and scale
+      const lensImg = document.getElementById("lens-image");
+      lensImg.style.left = `-${x * 2}px`;
+      lensImg.style.top = `-${y * 2}px`;
     }
 
-    function zoomOut(event) {
-      event.stopPropagation();
-      if (zoomLevel > 0.2) {
-        zoomLevel -= 0.2;
-        updateZoom();
-      }
+    function showLens() {
+      const lens = document.getElementById("lens");
+      lens.style.display = "block"; // Show the lens when the image is hovered
     }
 
-    function resetZoom(event) {
-      event.stopPropagation();
-      zoomLevel = 1;
-      updateZoom();
-    }
-
-    function updateZoom() {
-      document.getElementById("lightbox-img").style.transform = `scale(${zoomLevel})`;
+    function hideLens() {
+      const lens = document.getElementById("lens");
+      lens.style.display = "none"; // Hide the lens when not hovering
     }
   </script>
 </body>
