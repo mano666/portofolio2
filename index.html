@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Ven's Portofolio</title>
+  <title>Ven's Portfolio</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monaco">
   <style>
     body {
@@ -32,28 +32,65 @@
       font-size: 35px;
     }
 
-    .section p {
-      font-size: 40px;
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
     }
 
-    .section a {
-      color: rgb(255, 255, 255);
-      text-decoration: none;
+    .gallery-item {
+      width: calc(33.333% - 10px);
+      margin: 5px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .gallery-item {
+        width: calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-item {
+        width: 100%;
+      }
     }
   </style>
-   <script>
-    function smoothScroll(target) {
-      const element = document.querySelector(target);
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: 'smooth'
-      });
-    }
-  </script>
 </head>
 <body>
   <div class="header">
     <h1>Ven's Portfolio</h1>
+  </div>
+
+  <div class="section">
+    <h2>My Roblox Creations</h2>
+    <p>Check out some of my favorite works below:</p>
+    
+    <!-- Gallery Section -->
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://via.placeholder.com/300x200" alt="Project 1">
+      </div>
+      <div class="gallery-item">
+        <img src="https://via.placeholder.com/300x200" alt="Project 2">
+      </div>
+      <div class="gallery-item">
+        <img src="https://via.placeholder.com/300x200" alt="Project 3">
+      </div>
+      <!-- Add more gallery items as needed -->
+    </div>
+  </div>
 
 </body>
 </html>
