@@ -50,12 +50,31 @@
       background-color: rgba(0, 0, 0, 0.8);
       align-items: center;
       justify-content: center;
+      flex-direction: column;
     }
     .lightbox img {
       max-width: 90%;
       max-height: 90%;
       border-radius: 8px;
       box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.5);
+      transform-origin: center center;
+    }
+    .zoom-controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .zoom-controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    .zoom-controls button:hover {
+      background-color: #555;
     }
   </style>
 </head>
@@ -83,16 +102,50 @@
 
   <!-- Lightbox Container -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="Zoomed Image">
+    <img id="lightbox-img" src="" alt="Zoomed Image" style="transform: scale(1);">
+    <div class="zoom-controls">
+      <button onclick="zoomIn(event)">Zoom In</button>
+      <button onclick="zoomOut(event)">Zoom Out</button>
+      <button onclick="resetZoom(event)">Reset</button>
+    </div>
   </div>
 
   <script>
+    let zoomLevel = 1;
+
     function openLightbox(src) {
       document.getElementById("lightbox-img").src = src;
       document.getElementById("lightbox").style.display = "flex";
+      zoomLevel = 1; // Reset zoom level when opening a new image
+      updateZoom();
     }
+
     function closeLightbox() {
       document.getElementById("lightbox").style.display = "none";
+    }
+
+    function zoomIn(event) {
+      event.stopPropagation(); // Prevent lightbox close on button click
+      zoomLevel += 0.2;
+      updateZoom();
+    }
+
+    function zoomOut(event) {
+      event.stopPropagation();
+      if (zoomLevel > 0.2) {
+        zoomLevel -= 0.2;
+        updateZoom();
+      }
+    }
+
+    function resetZoom(event) {
+      event.stopPropagation();
+      zoomLevel = 1;
+      updateZoom();
+    }
+
+    function updateZoom() {
+      document.getElementById("lightbox-img").style.transform = `scale(${zoomLevel})`;
     }
   </script>
 </body>
