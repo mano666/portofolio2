@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Project - Starting Menu</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monaco">
+  <style>
+    body {
+      background-color: rgb(0, 0, 0);
+      color: #fff;
+      font-family: "Monaco", monospace;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #000;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 35px;
+      margin: 0;
+    }
+    .content {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .content img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+    .content p {
+      font-size: 18px;
+    }
 
+    /* Lightbox styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Starting Menu</h1>
+  </div>
+
+  <div class="content">
+    <p>Below are all the photos of the UI. For a better view press on the photos.</p>
+    <img src="https://i.imgur.com/W9g3ncA.png" alt="Main UI" onclick="openLightbox(this.src)">
+  </div>
+  <div class="content">
+    <img src="https://i.imgur.com/MEApd75.png" alt=" Account UI" onclick="openLightbox(this.src)">
+  </div>
+
+  <!-- Lightbox Container -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Zoomed Image">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox").style.display = "flex";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+</body>
+</html>
